@@ -9,12 +9,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement speed")]
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float runningSpeed;
-    [SerializeField] private float mouseSensitivity = 2f;
+    
     [SerializeField] private float jumpForce = 5f;
 
     [Header("Mouse/Camera")]
     public Transform playerCamera;
     private float rotationX = 0f;
+    [SerializeField] private float mouseSensitivity = 2f;
 
     [SerializeField] private float groundDistance = 0.2f;
     public LayerMask groundMask;
@@ -28,10 +29,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Sprint")]
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float currentStamina;
-    [SerializeField] private float staminaDrain = 5f; //desgaste de aguante
+    [SerializeField] private float staminaDrain = 5f; 
     [SerializeField] private float staminaRegen = 5f;
-    [SerializeField] private float noSprintTime = 0f; //tiempo sin correr
-
+    [SerializeField] private float noSprintTime = 0f; 
+    //[SerializeField] private float powerUpStamina = 0f;    
+    [SerializeField] private float powerUpSpeed = 0f;         
+    [SerializeField] private float powerUpRecoveryTime = 5f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -64,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.deltaTime);
 
-        if (isSprinting) //reset del tiempo del aguante
+        if (isSprinting)
         {
             noSprintTime = 0f;
         }
@@ -111,5 +114,11 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, groundDistance, groundMask);
+    }
+    public void ApplyPowerUp(float additionalStamina, float additionalSpeed, float reducedRecoveryTime)
+    {
+        maxStamina += additionalStamina;            
+        powerUpSpeed = additionalSpeed;             
+        powerUpRecoveryTime = reducedRecoveryTime;  
     }
 }
