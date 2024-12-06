@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class StaminaPlus : MonoBehaviour
 {
+
+    [Header("Canvas")]
+    [SerializeField] private Canvas interactuable;
+
+    [Header("Perk")]
     public float additionalStamina = 50f;       
     public float additionalSpeed = 2f;          
     public float reducedRecoveryTime = 3f;     
@@ -13,6 +18,7 @@ public class StaminaPlus : MonoBehaviour
     {
         if (other.CompareTag("Player") && !powerUpUsed)  
         {
+            interactuable.gameObject.SetActive(true);
             isPlayerInRange = true;
         }
     }
@@ -21,6 +27,7 @@ public class StaminaPlus : MonoBehaviour
     {
         if (other.CompareTag("Player"))  
         {
+            interactuable.gameObject.SetActive(false);
             isPlayerInRange = false;
         }
     }

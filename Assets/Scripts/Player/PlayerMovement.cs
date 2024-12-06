@@ -32,9 +32,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float staminaDrain = 5f; 
     [SerializeField] private float staminaRegen = 5f;
     [SerializeField] private float noSprintTime = 0f; 
-    //[SerializeField] private float powerUpStamina = 0f;    
     [SerializeField] private float powerUpSpeed = 0f;         
     [SerializeField] private float powerUpRecoveryTime = 5f;
+
+    [Header("Animator")]
+    [SerializeField]Animator animator;
+    [SerializeField] private string xAxisName;
+    [SerializeField] private string zAxisName;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -58,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
+
+        animator.SetFloat(xAxisName, moveX);
+        animator.SetFloat(zAxisName, moveZ);
 
         Vector3 moveDirection = transform.right * moveX + transform.forward * moveZ;
 
@@ -93,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsGrounded() && Input.GetButtonDown("Jump"))
         {
+            Debug.Log("jump");
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
